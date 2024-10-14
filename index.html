@@ -1,40 +1,64 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un Produit</title>
-    <script>
-        function validateForm() {
-            const name = document.forms["productForm"]["product_name_en"].value;
-            const price = document.forms["productForm"]["product_priceUSD"].value;
-            const stock = document.forms["productForm"]["product_stock_units"].value;
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Gestion des Produits</title>
 
-            if (name === "") {
-                alert("Le nom du produit est requis");
-                return false;
-            }
-            if (isNaN(price) || price <= 0) {
-                alert("Le prix du produit doit être un nombre positif");
-                return false;
-            }
-            if (isNaN(stock) || stock < 0) {
-                alert("Le stock du produit doit être un nombre non négatif");
-                return false;
-            }
-            return true;
-        }
-    </script>
-</head>
-<body>
-    <form name="productForm" onsubmit="return validateForm()" method="post" action="http://localhost/test-kalstein/app/api.php">
-        <label for="product_name_en">Nom du Produit (en anglais):</label><br>
-        <input type="text" id="product_name_en" name="product_name_en"><br>
-        <label for="product_priceUSD">Prix (USD):</label><br>
-        <input type="text" id="product_priceUSD" name="product_priceUSD"><br>
-        <label for="product_stock_units">Stock:</label><br>
-        <input type="text" id="product_stock_units" name="product_stock_units"><br><br>
-        <input type="submit" value="Ajouter le Produit">
-    </form>
-</body>
+        <!-- Montserrat -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+        <!-- Roboto -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+        <!-- Feuille de styles -->
+        <link rel="stylesheet" href="./assets/styles/reset.css" />
+        <link rel="stylesheet" href="./assets/styles/style.css" />
+        <link rel="stylesheet" href="./assets/styles/layout.css" />
+
+    </head>
+    <body>
+        <h1>Gestion des Produits</h1>
+        <form id="productForm" class="centered">
+            <input type="hidden" id="productId" />
+            <label for="name">Nom du Produit:</label>
+            <input type="text" id="name" required />
+            <label for="price">Prix:</label>
+            <input type="number" id="price" required />
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" required />
+            <button type="submit">Enregistrer</button>
+        </form>
+
+        <h2>Liste des Produits</h2>
+        <table id="productTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Prix</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Produit A</td>
+                    <td>10.00</td>
+                    <td>100</td>
+                    <td class="action-buttons">
+                        <button class="edit">Edit</button>
+                        <button class="delete">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <script src="./js/app.js"></script>
+    </body>
 </html>

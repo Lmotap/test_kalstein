@@ -1,8 +1,9 @@
 <?php
 
-ini_set('memory_limit', '256M'); // Augmente la limite de mémoire à 256 Mo
+ini_set('memory_limit', '256M'); 
 
 require './config/config.php';
+require '../vendor/autoload.php';
 
 header('Content-Type: application/json');
 
@@ -56,11 +57,11 @@ function getProducts() {
 function getProduct($id) {
     try {
         $pdo = Database::connect();
-        $stmt = $pdo->prepare('SELECT product_aid FROM wp_k_products WHERE product_aid = ?');
+        $stmt = $pdo->prepare('SELECT product_aid, product_name_en, product_priceUSD, product_stock_units FROM wp_k_products WHERE product_aid = ?');
         $stmt->execute([$id]);
         $product = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($product) {
-            echo json_encode(['product_aid' => $product['product_aid']]);
+            echo json_encode($product);
         } else {
             http_response_code(404);
             echo json_encode(['message' => 'Product not found']);
@@ -81,11 +82,14 @@ function addProduct() {
     try {
         $pdo = Database::connect();
         $data = json_decode(file_get_contents('php://input'), true);
-        error_log('Received data for add: ' . print_r($data, true)); // Log des données reçues
         if (validateProductData($data)) {
             $stmt = $pdo->prepare('INSERT INTO wp_k_products (product_name_en, product_priceUSD, product_stock_units) VALUES (?, ?, ?)');
             $stmt->execute([$data['product_name_en'], $data['product_priceUSD'], $data['product_stock_units']]);
-            echo json_encode(['message' => 'Product added']);
+            $productId = $pdo->lastInsertId();
+            $stmt = $pdo->prepare('SELECT product_aid, product_name_en, product_priceUSD, product_stock_units FROM wp_k_products WHERE product_aid = ?');
+            $stmt->execute([$productId]);
+            $product = $stmt->fetch(PDO::FETCH_ASSOC);
+            echo json_encode(['message' => 'Product added', 'product' => $product]);
         } else {
             http_response_code(400);
             echo json_encode(['message' => 'Invalid input']);
@@ -93,7 +97,6 @@ function addProduct() {
     } catch (Exception $e) {
         http_response_code(500);
         echo json_encode(['message' => 'Failed to add product', 'error' => $e->getMessage()]);
-        error_log('Error adding product: ' . $e->getMessage()); // Log de l'erreur
     }
 }
 
@@ -101,7 +104,6 @@ function updateProduct($id) {
     try {
         $pdo = Database::connect();
         $data = json_decode(file_get_contents('php://input'), true);
-        error_log('Received data for update: ' . print_r($data, true)); // Log des données reçues
         if (validateProductData($data)) {
             $stmt = $pdo->prepare('UPDATE wp_k_products SET product_name_en = ?, product_priceUSD = ?, product_stock_units = ? WHERE product_aid = ?');
             $stmt->execute([$data['product_name_en'], $data['product_priceUSD'], $data['product_stock_units'], $id]);
@@ -113,7 +115,6 @@ function updateProduct($id) {
     } catch (Exception $e) {
         http_response_code(500);
         echo json_encode(['message' => 'Failed to update product', 'error' => $e->getMessage()]);
-        error_log('Error updating product: ' . $e->getMessage()); // Log de l'erreur
     }
 }
 
@@ -131,7 +132,5 @@ function deleteProduct($id) {
     } catch (Exception $e) {
         http_response_code(500);
         echo json_encode(['message' => 'Failed to delete product', 'error' => $e->getMessage()]);
-        error_log('Error deleting product: ' . $e->getMessage()); // Log de l'erreur
     }
 }
-?>
