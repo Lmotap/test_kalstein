@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter un Produit</title>
+    <script>
+        function validateForm() {
+            const name = document.forms["productForm"]["product_name_en"].value;
+            const price = document.forms["productForm"]["product_priceUSD"].value;
+            const stock = document.forms["productForm"]["product_stock_units"].value;
+
+            if (name === "") {
+                alert("Le nom du produit est requis");
+                return false;
+            }
+            if (isNaN(price) || price <= 0) {
+                alert("Le prix du produit doit être un nombre positif");
+                return false;
+            }
+            if (isNaN(stock) || stock < 0) {
+                alert("Le stock du produit doit être un nombre non négatif");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <form name="productForm" onsubmit="return validateForm()" method="post" action="http://localhost/test-kalstein/app/api.php">
+        <label for="product_name_en">Nom du Produit (en anglais):</label><br>
+        <input type="text" id="product_name_en" name="product_name_en"><br>
+        <label for="product_priceUSD">Prix (USD):</label><br>
+        <input type="text" id="product_priceUSD" name="product_priceUSD"><br>
+        <label for="product_stock_units">Stock:</label><br>
+        <input type="text" id="product_stock_units" name="product_stock_units"><br><br>
+        <input type="submit" value="Ajouter le Produit">
+    </form>
+</body>
+</html>
