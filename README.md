@@ -12,6 +12,7 @@
 ```sh
 git clone https://github.com/votre-utilisateur/votre-projet.git
 cd votre-projet
+```
 
 Installer les dépendances :
 
@@ -57,13 +58,6 @@ En suivant ces étapes, vous devriez être en mesure de configurer, exécuter et
 # API de Gestion des Produits
 
 Cette application est une API de gestion des produits développée en PHP. Elle permet de créer, lire, mettre à jour et supprimer des produits dans une base de données. L'application utilise une base de données MySQL pour stocker les informations des produits.
-
-## Prérequis
-
-- PHP 7.4 ou supérieur
-- MySQL
-- Composer (pour la gestion des dépendances PHP)
-- Un serveur web (Apache, Nginx, etc.)
 
 ## Installation
 
