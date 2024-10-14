@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Guide de Configuration et d'Exécution de l'Application
 
 ## Prérequis
