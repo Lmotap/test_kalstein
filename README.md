@@ -68,26 +68,31 @@ curl -X POST http://localhost:8000/app/api.php -H "Content-Type: application/jso
     "product_priceUSD": 100,
     "product_stock_units": 50
 }'
+ ```
 
-Mettre à jour un produit
+### Mettre à jour un produit
 
+```bash
 curl -X PUT http://localhost:8000/app/api.php/1 -H "Content-Type: application/json" -d '{
     "product_name_en": "Produit Mis à Jour",
     "product_priceUSD": 150,
     "product_stock_units": 30
 }'
+ ```
 
-Supprimer un produit
+### Supprimer un produit
 
+```bash
 curl -X DELETE http://localhost:8000/app/api.php/1
+```
 
-Pourquoi et Comment
+## Pourquoi et Comment
 
-Pourquoi
+# Pourquoi
 
 L'objectif de cette application est de fournir une API simple et efficace pour gérer les produits d'une base de données. Elle permet aux développeurs de facilement intégrer des fonctionnalités de gestion de produits dans leurs applications.
 
-Comment
+# Comment
 
 Configuration de la Base de Données :
 
@@ -95,28 +100,29 @@ Configuration de la Base de Données :
 
 - Ensuite, j'ai configuré les paramètres de connexion à la base de données dans config/config.php.
 
-Développement de l'API :
+# Développement de l'API :
 
 - J'ai créé un fichier api.php qui gère les différentes requêtes HTTP (GET, POST, PUT, DELETE).
 
 - Chaque fonction de l'API (getProducts, getProduct, addProduct, updateProduct, deleteProduct) interagit avec la base de données pour effectuer les opérations CRUD.
 
-Gestion des Erreurs :
+# Gestion des Erreurs :
 
 - J'ai ajouté des blocs try-catch pour gérer les exceptions et renvoyer des messages d'erreur appropriés en cas de problème.
 
-Validation des Données :
+# Validation des Données :
 
 - J'ai implémenté une fonction validateProductData pour vérifier que les données des produits sont valides avant de les insérer ou de les mettre à jour dans la base de données.
 
-Retour des Messages de Confirmation :
+# Retour des Messages de Confirmation :
 
 - J'ai veillé à ce que chaque opération réussie renvoie un message de confirmation pour informer l'utilisateur de l'état de l'opération.
 
-Extrait de Code
+# Extrait de Code
 
 Voici un extrait de code de la fonction updateProduct et deleteProduct dans api.php :
 
+```bash
 <?php
 function updateProduct($id) {
     try {
@@ -152,5 +158,6 @@ function deleteProduct($id) {
         echo json_encode(['message' => 'Failed to delete product', 'error' => $e->getMessage()]);
     }
 }
+```
 
 En suivant ces étapes, j'ai pu développer une API robuste et facile à utiliser pour la gestion des produits.
