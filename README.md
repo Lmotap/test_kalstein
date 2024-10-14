@@ -217,4 +217,3 @@ function deleteProduct($id) {
 ```
 
 En suivant ces étapes, j'ai pu développer une API robuste et facile à utiliser pour la gestion des produits.
->>>>>>> d8cc5c92e216e7d2e7fd38b1b25ef3c6862acb84
